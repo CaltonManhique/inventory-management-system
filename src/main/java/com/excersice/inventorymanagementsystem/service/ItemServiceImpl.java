@@ -41,7 +41,7 @@ public class ItemServiceImpl implements ItemServiceInterface {
             itemRepo.delete(item.get());
             sucessMessage = "Successfully deleted Item with id: " + id;
         } else {
-            throw new RuntimeException("Item Not Found");
+            throw new RuntimeException("Item not Found");
         }
         return sucessMessage;
     }
@@ -54,7 +54,7 @@ public class ItemServiceImpl implements ItemServiceInterface {
         if (itemOptional.isPresent()) {
             item = itemOptional.get();
         } else {
-            throw new RuntimeException("Item Not Found");
+            throw new RuntimeException("Item not found!");
         }
         return item;
     }

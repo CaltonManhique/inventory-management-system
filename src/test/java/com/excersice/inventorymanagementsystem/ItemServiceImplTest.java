@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ItemServiceImplTest {
@@ -69,7 +68,7 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void testFindById() {
+    public void testGetItemByExistingId() {
         Item item = new Item("Banana", "From Colombia", 1.99, 200);
         item.setItemId(1L);
 
@@ -85,7 +84,19 @@ public class ItemServiceImplTest {
     }
 
     @Test
-    public void testFindAll() {
+    public void testGetItemByNonExistingId() {
+
+        when(itemRepo.findById(1L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> itemService.getItem(1L));
+
+        assertEquals("Item not found!", exception.getMessage());
+
+        verify(itemRepo, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGetAllItems() {
 
         List<Item> items = Arrays.asList(new Item("Banana", "From Colombia", 1.99, 200),
                 new Item("Orange", "From Portugal", 2.59, 300));
